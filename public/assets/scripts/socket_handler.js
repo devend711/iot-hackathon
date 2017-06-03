@@ -1,7 +1,8 @@
-window.$(function () {
+$(function () {
   var socket = io();
-
-  socket.on('event', function (event){
+  socket.emit('event', {data: 'hi'});
+  socket.on('event', function (event) {
+    console.log('event!', event);
     $('#messages').append($('<li>').text(event.data));
   });
 });
