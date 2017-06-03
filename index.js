@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -10,16 +11,9 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.post('/', function(request, response) {
-  let body = response.on('data', function (chunk) {
-    body += chunk;
-  });
-
-  response.on('end', function () {
-    console.log(req.data);
-    console.log(body);
-    response.status(200);
-    response.send('ping');
-  });
+  console.log(request.body);
+  response.status(200);
+  response.send('ping');
 });
 
 app.listen(app.get('port'), function() {
