@@ -19,19 +19,19 @@ $(function () {
   canvas.height = 480;
   document.body.appendChild(canvas);
 
-  var createHero = function(name) {
+  var createHero = function(id) {
     var hero = {
       temp: 0,
       speed: 256 // movement in pixels per second
     };
 
-    hero.name = name;
+    hero.id = id;
     hero.x = canvas.width / 2;
     hero.y = canvas.height / 2;
     return hero;
   }
   
-  heros = [];
+  heros = {};
 
   // Background image
   var bgReady = false;
@@ -96,7 +96,7 @@ $(function () {
     // }
 
     // Are they touching?
-    heros.forEach(function(hero) {
+    Object.values(heros).forEach(function(hero) {
       if (
         hero.x <= (monster.x + 32)
         && monster.x <= (hero.x + 32)
@@ -116,7 +116,7 @@ $(function () {
     }
 
     if (heroReady) {
-      heros.forEach(function(hero) {
+      Object.values(heros).forEach(function(hero) {
         ctx.drawImage(heroImage, hero.x, hero.y);
         drawTempIndicator(hero);
       });
@@ -182,19 +182,14 @@ $(function () {
       console.log(event);
       var currentHero;
 
-      for(var i=0; i<heros.length; i++) {
-        var hero = heros[i];
-        console.log('trying to find existing hero using', event.data.id);
-        if (hero.name === event.id) {
-          console.log('found existing hero');
-          currentHero = hero;
-          break;
-        } 
+      if (heros[event.id]) {
+        currentHero = hero[event.id];
+        console.log('found existing hero');
       }
 
       if (!currentHero) {
         currentHero = createHero(event.id); 
-        heros.push(currentHero);
+        heros[currentHero.id] = currentHero;
         console.log('adding a new hero', event.id);
       }
 
