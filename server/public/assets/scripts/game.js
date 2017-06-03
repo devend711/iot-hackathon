@@ -177,7 +177,7 @@ $(function () {
       for(let i=0; i++; i<heros.length) {
         var hero = heros[i];
         console.log('trying to find existing hero using', event.data.id);
-        if (hero.name === event.data.id) {
+        if (hero.name == event.id) {
           console.log('found existing hero');
           currentHero = hero;
           break;
@@ -190,7 +190,7 @@ $(function () {
         console.log('adding a new hero', event.id);
       }
 
-      currentHero.temp = event.data.temp
+      currentHero.temp = data.temp
 
       var newPosition = {x: currentHero.x, y: currentHero.y};
 
