@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "git push heroku `git subtree split --prefix server master`:master --force"
+    "deploy-server": "git push heroku `git subtree split --prefix server master`:master --force"
   },
   "repository": {
     "type": "git",
