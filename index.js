@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io')(server);
-app.set('port', (process.env.PORT || 5000));
+const io = require('socket.io').listen(server);
 const bodyParser = require('body-parser');
 
 app.use(express.static(__dirname + '/public'));
+app.set('port', (process.env.PORT || 5000));
 
 // create application/json parser
 const jsonParser = bodyParser.json();
