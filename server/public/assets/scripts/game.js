@@ -21,6 +21,7 @@ $(function () {
 
   var createHero = function(name) {
     var hero = {
+      temp: 0,
       speed: 256 // movement in pixels per second
     };
 
@@ -117,6 +118,7 @@ $(function () {
     if (heroReady) {
       heros.forEach(function(hero) {
         ctx.drawImage(heroImage, hero.x, hero.y);
+        drawTempIndicator(hero);
       });
     }
 
@@ -131,6 +133,17 @@ $(function () {
     ctx.textBaseline = "top";
     ctx.fillText("Goblins caught: " + monstersCaught, 32, 32);
   };
+
+  var drawTempIndicator = function (hero) {
+    if (!hero.temp) return;
+    const scaledDiffFromRoomTemp = Math.abs(23 - hero.temp) * 10 / 100 * 255;
+    // Calcualte how red the player's temperature indicator should be
+    const fillColorPercentageRValue = Math.min(scaledDiffFromRoomTemp, 255);
+    ctx.fillStyle = `rgb(${fillColorPercentageRValue}, 0, 0)`;
+    ctx.globalAlpha = 0.2;
+    ctx.fillRect(hero.x-10, hero.y-12.5, 50, 50);
+    ctx.globalAlpha = 1.0;
+  }
 
   // The main game loop
   var main = function () {
@@ -161,18 +174,23 @@ $(function () {
       console.log(event);
       var currentHero;
 
-      heros.forEach(function(hero) {
-        console.log('trying to find existing hero using', event.id);
-        if (hero.name === event.id) {
+      for(let i=0; i++; i<heros.length) {
+        var hero = heros[i];
+        console.log('trying to find existing hero using', event.data.id);
+        if (hero.name === event.data.id) {
+          console.log('found existing hero');
           currentHero = hero;
+          break;
         } 
-      });
+      }
 
       if (!currentHero) {
         currentHero = createHero(event.id); 
         heros.push(currentHero);
         console.log('adding a new hero', event.id);
       }
+
+      currentHero.temp = data.temp
 
       var newPosition = {x: currentHero.x, y: currentHero.y};
 
