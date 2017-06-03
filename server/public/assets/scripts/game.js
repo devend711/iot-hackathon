@@ -3,7 +3,7 @@
 const config = {
   MAX_WIDTH: 512,
   MAX_HEIGHT: 450,
-  HERO_SIZE: 30
+  HERO_SIZE: 32
 }
 
 $(function () {
