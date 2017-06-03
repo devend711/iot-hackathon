@@ -186,9 +186,9 @@ $(function () {
   main();
 
   var getHeroById = function(id) {
-    if (heros[event.id]) return heros[event.id];
+    if (heros[id]) return heros[id];
     // Couldn't find an existing hero with this ID, create a new one
-    const newHero = createHero(event.id); 
+    const newHero = createHero(id); 
     heros[newHero.id] = newHero;
     console.log('adding a new hero', newHero.id);
     return newHero;
