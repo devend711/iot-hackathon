@@ -124,13 +124,8 @@ $(function () {
     }
 
     heros.forEach(function(hero) {
-      const fillColor = (hero.temp-23)/100*255;
-      ctx.fillStyle="";
-      ctx.globalAlpha = 0.2;
-      ctx.fillRect(hero.x-10, hero.y-12.5, 50, 50);
-      ctx.globalAlpha = 1.0;
+      drawTempIndicator(hero);
     });
-
 
     // Score
     ctx.fillStyle = "rgb(250, 250, 250)";
@@ -139,6 +134,15 @@ $(function () {
     ctx.textBaseline = "top";
     ctx.fillText("Goblins caught: " + monstersCaught, 32, 32);
   };
+
+  var drawTempIndicator = function (hero) {
+    // Calcualte how red the player's temperature indicator should be
+    const fillColorPercentage = ((hero.temp-23)/100*255).toString(16).slice(0,2);
+    ctx.fillStyle='#${fillColorPercentage}FFFF';
+    ctx.globalAlpha = 0.2;
+    ctx.fillRect(hero.x-10, hero.y-12.5, 50, 50);
+    ctx.globalAlpha = 1.0;
+  }
 
   // The main game loop
   var main = function () {
@@ -169,13 +173,15 @@ $(function () {
 
       var currentHero;
 
-      heros.forEach(function(hero) {
+      for(let i=0; i++; i<heros.length) {
+        var hero = heros[i];
         console.log('trying to find existing hero using', event.data.id);
         if (hero.name === event.data.id) {
           console.log('found existing hero');
           currentHero = hero;
+          break;
         } 
-      });
+      }
 
       if (!currentHero) {
         currentHero = createHero(event.data.id); 
