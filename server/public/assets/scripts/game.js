@@ -21,6 +21,7 @@ $(function () {
 
   var createHero = function(name) {
     var hero = {
+      temp: 0,
       speed: 256 // movement in pixels per second
     };
 
@@ -123,6 +124,8 @@ $(function () {
     }
 
     heros.forEach(function(hero) {
+      const fillColor = (hero.temp-23)/100*255;
+      ctx.fillStyle="";
       ctx.globalAlpha = 0.2;
       ctx.fillRect(hero.x-10, hero.y-12.5, 50, 50);
       ctx.globalAlpha = 1.0;
