@@ -12,8 +12,8 @@ $(function () {
   // Create the canvas
   var canvas = document.getElementById("game-canvas");
   var ctx = canvas.getContext("2d");
-  canvas.width = config.MAX_WIDTH;
-  canvas.height = config.MAX_HEIGHT;
+  canvas.width = config.MAX_WIDTH + 30;
+  canvas.height = config.MAX_HEIGHT + 30;
   document.body.appendChild(canvas);
 
   var createHero = function(id) {
