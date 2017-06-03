@@ -1,3 +1,5 @@
+// https://github.com/lostdecade/simple_canvas_game
+
 $(function () {
 
   var restrictMovement = function(hero, requestedUpdate) {
@@ -11,7 +13,7 @@ $(function () {
   }
 
   // Create the canvas
-  var canvas = document.createElement("canvas");
+  var canvas = document.getElementById("game-canvas");
   var ctx = canvas.getContext("2d");
   canvas.width = 512;
   canvas.height = 480;
