@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 
 app.use(express.static(__dirname + '/public'));
 app.set('port', (process.env.PORT || 5000));
-server.listen(app.port);  
+server.listen(app.get('port'));  
 
 
 // create application/json parser
