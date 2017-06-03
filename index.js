@@ -25,7 +25,7 @@ app.get('/', function (request, response) {
 
 app.post('/event', jsonParser, function (request, response) {
   console.log(request.body);
-  socket.emit('event', request.body);
+  io.emit('event', request.body);
   response.status(200);
   response.send('ping');
 });
