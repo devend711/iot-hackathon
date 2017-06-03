@@ -19,6 +19,19 @@ $(function () {
   canvas.height = 480;
   document.body.appendChild(canvas);
 
+  var createHero = function(name) {
+    var hero = {
+      speed: 256 // movement in pixels per second
+    };
+
+    hero.name = name;
+    hero.x = canvas.width / 2;
+    hero.y = canvas.height / 2;
+    return hero;
+  }
+  
+  heros = [createHero('carter'), createHero('test')];
+
   // Background image
   var bgReady = false;
   var bgImage = new Image();
@@ -43,10 +56,6 @@ $(function () {
   };
   monsterImage.src = "assets/images/monster.png";
 
-  // Game objects
-  var hero = {
-    speed: 256 // movement in pixels per second
-  };
   var monster = {};
   var monstersCaught = 0;
 
@@ -63,9 +72,6 @@ $(function () {
 
   // Reset the game when the player catches a monster
   var reset = function () {
-    hero.x = canvas.width / 2;
-    hero.y = canvas.height / 2;
-
     // Throw the monster somewhere on the screen randomly
     monster.x = 32 + (Math.random() * (canvas.width - 64));
     monster.y = 32 + (Math.random() * (canvas.height - 64));
@@ -73,6 +79,8 @@ $(function () {
 
   // Update game objects
   var update = function (modifier) {
+    var hero = heros[0];
+
     if (38 in keysDown) { // Player holding up
       hero.y -= hero.speed * modifier;
     }
@@ -105,7 +113,9 @@ $(function () {
     }
 
     if (heroReady) {
-      ctx.drawImage(heroImage, hero.x, hero.y);
+      heros.forEach(function(hero) {
+        ctx.drawImage(heroImage, hero.x, hero.y);
+      });
     }
 
     if (monsterReady) {
@@ -146,12 +156,29 @@ $(function () {
   var socket = io();
   socket.on('event', function (event) {
     if (event && event.data && event.data.x) {
-      var newPosition = {x: hero.x, y: hero.y};
 
-      newPosition.x += hero.speed * event.data.x/100;
-      newPosition.y += hero.speed * event.data.y/100;
+      var currentHero;
 
-      restrictMovement(hero, newPosition);
+      heros.forEach(function(hero) {
+        console.log('trying to find existing hero using', event.data.id);
+        if (hero.name === event.data.id) {
+          console.log('found existing hero');
+          currentHero = hero;
+        } 
+      });
+
+      if (!currentHero) {
+        currentHero = createHero(event.data.id); 
+        heros.push(currentHero);
+        console.log('adding a new hero', event.data.id);
+      }
+
+      var newPosition = {x: currentHero.x, y: currentHero.y};
+
+      newPosition.x += currentHero.speed * event.data.x/100;
+      newPosition.y += currentHero.speed * event.data.y/100;
+
+      restrictMovement(currentHero, newPosition);
     }
   });
 });
