@@ -11,6 +11,7 @@ app.set('view engine', 'ejs');
 
 app.post('/', function(request, response) {
   console.log('ping:');
+  debugger
   response.status(200);
   response.send('ping');
 });
