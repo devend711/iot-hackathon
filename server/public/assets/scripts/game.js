@@ -30,7 +30,7 @@ $(function () {
     return hero;
   }
   
-  heros = [createHero('hero')];
+  heros = [];
 
   // Background image
   var bgReady = false;
@@ -79,31 +79,33 @@ $(function () {
 
   // Update game objects
   var update = function (modifier) {
-    var hero = heros[0];
+    // var hero = heros[0];
 
-    if (38 in keysDown) { // Player holding up
-      hero.y -= hero.speed * modifier;
-    }
-    if (40 in keysDown) { // Player holding down
-      hero.y += hero.speed * modifier;
-    }
-    if (37 in keysDown) { // Player holding left
-      hero.x -= hero.speed * modifier;
-    }
-    if (39 in keysDown) { // Player holding right
-      hero.x += hero.speed * modifier;
-    }
+    // if (38 in keysDown) { // Player holding up
+    //   hero.y -= hero.speed * modifier;
+    // }
+    // if (40 in keysDown) { // Player holding down
+    //   hero.y += hero.speed * modifier;
+    // }
+    // if (37 in keysDown) { // Player holding left
+    //   hero.x -= hero.speed * modifier;
+    // }
+    // if (39 in keysDown) { // Player holding right
+    //   hero.x += hero.speed * modifier;
+    // }
 
     // Are they touching?
-    if (
-      hero.x <= (monster.x + 32)
-      && monster.x <= (hero.x + 32)
-      && hero.y <= (monster.y + 32)
-      && monster.y <= (hero.y + 32)
-    ) {
-      ++monstersCaught;
-      reset();
-    }
+    heros.forEach(function(hero) {
+      if (
+        hero.x <= (monster.x + 32)
+        && monster.x <= (hero.x + 32)
+        && hero.y <= (monster.y + 32)
+        && monster.y <= (hero.y + 32)
+      ) {
+        ++monstersCaught;
+        reset();
+      }
+    });
   };
 
   // Draw everything
@@ -157,13 +159,11 @@ $(function () {
   socket.on('event', function (event) {
     if (event && event.data && event.data.x) {
       console.log(event);
-      console.log(heros);
       var currentHero;
 
       heros.forEach(function(hero) {
         console.log('trying to find existing hero using', event.id);
         if (hero.name === event.id) {
-          console.log('found existing hero');
           currentHero = hero;
         } 
       });
