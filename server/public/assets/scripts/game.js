@@ -21,7 +21,7 @@ $(function () {
 
   var createHero = function(name) {
     var hero = {
-      temperature: 50,
+      temp: 0,
       speed: 256 // movement in pixels per second
     };
 
@@ -31,7 +31,7 @@ $(function () {
     return hero;
   }
   
-  heros = [createHero('carter'), createHero('test')];
+  heros = [];
 
   // Background image
   var bgReady = false;
@@ -80,31 +80,33 @@ $(function () {
 
   // Update game objects
   var update = function (modifier) {
-    var hero = heros[0];
+    // var hero = heros[0];
 
-    if (38 in keysDown) { // Player holding up
-      hero.y -= hero.speed * modifier;
-    }
-    if (40 in keysDown) { // Player holding down
-      hero.y += hero.speed * modifier;
-    }
-    if (37 in keysDown) { // Player holding left
-      hero.x -= hero.speed * modifier;
-    }
-    if (39 in keysDown) { // Player holding right
-      hero.x += hero.speed * modifier;
-    }
+    // if (38 in keysDown) { // Player holding up
+    //   hero.y -= hero.speed * modifier;
+    // }
+    // if (40 in keysDown) { // Player holding down
+    //   hero.y += hero.speed * modifier;
+    // }
+    // if (37 in keysDown) { // Player holding left
+    //   hero.x -= hero.speed * modifier;
+    // }
+    // if (39 in keysDown) { // Player holding right
+    //   hero.x += hero.speed * modifier;
+    // }
 
     // Are they touching?
-    if (
-      hero.x <= (monster.x + 32)
-      && monster.x <= (hero.x + 32)
-      && hero.y <= (monster.y + 32)
-      && monster.y <= (hero.y + 32)
-    ) {
-      ++monstersCaught;
-      reset();
-    }
+    heros.forEach(function(hero) {
+      if (
+        hero.x <= (monster.x + 32)
+        && monster.x <= (hero.x + 32)
+        && hero.y <= (monster.y + 32)
+        && monster.y <= (hero.y + 32)
+      ) {
+        ++monstersCaught;
+        reset();
+      }
+    });
   };
 
   // Draw everything
@@ -136,8 +138,8 @@ $(function () {
   };
 
   var drawTempIndicator = function (hero) {
-    if (!hero.temperature) return;
-    const scaledDiffFromRoomTemp = Math.abs(23 - hero.temperature) * 10 / 100 * 255;
+    if (!hero.temp) return;
+    const scaledDiffFromRoomTemp = Math.abs(23 - hero.temp) * 10 / 100 * 255;
     // Calcualte how red the player's temperature indicator should be
     const fillColorPercentageRValue = Math.min(scaledDiffFromRoomTemp, 255);
     ctx.fillStyle = `rgb(${fillColorPercentageRValue}, 0, 0)`;
@@ -172,7 +174,7 @@ $(function () {
   var socket = io();
   socket.on('event', function (event) {
     if (event && event.data && event.data.x) {
-
+      console.log(event);
       var currentHero;
 
       for(let i=0; i++; i<heros.length) {
@@ -186,12 +188,12 @@ $(function () {
       }
 
       if (!currentHero) {
-        currentHero = createHero(event.data.id); 
+        currentHero = createHero(event.id); 
         heros.push(currentHero);
-        console.log('adding a new hero', event.data.id);
+        console.log('adding a new hero', event.id);
       }
 
-      currentHero.temperature = data.temperature;
+      currentHero.temp = data.temp
 
       var newPosition = {x: currentHero.x, y: currentHero.y};
 
