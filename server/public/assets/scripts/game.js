@@ -1,22 +1,19 @@
 // https://github.com/lostdecade/simple_canvas_game
 
+const config = {
+  MIN_WIDTH: 30,
+  MAX_WIDTH: 512,
+  MIN_HEIGHT: 30,
+  MAX_HEIGHT: 414
+}
+
 $(function () {
-
-  var restrictMovement = function(hero, requestedUpdate) {
-    if (requestedUpdate.x < 30 || requestedUpdate.x > 450 || requestedUpdate.y < 30 || requestedUpdate.y > 414) {
-      console.log('no update: out of bounds');
-      return;
-    }
-
-    hero.x = requestedUpdate.x;
-    hero.y = requestedUpdate.y;
-  }
 
   // Create the canvas
   var canvas = document.getElementById("game-canvas");
   var ctx = canvas.getContext("2d");
-  canvas.width = 512;
-  canvas.height = 480;
+  canvas.width = config.MAX_WIDTH;
+  canvas.height = config.MAX_HEIGHT;
   document.body.appendChild(canvas);
 
   var createHero = function(id) {
@@ -32,6 +29,24 @@ $(function () {
   }
   
   heros = {};
+
+  var restrictMovement = function(hero, requestedUpdate) {
+    if (requestedUpdate.x < 30 || requestedUpdate.x > 450 || requestedUpdate.y < 30 || requestedUpdate.y > 414) {
+      console.log('no update: out of bounds');
+      return;
+    }
+
+    // Restrict x
+    requestedUpdate.x = Math.max(config.MIN_WIDTH, requestedUpdate.x);
+    requestedUpdate.x = Math.min(config.MAX_WIDTH, requestedUpdate.x);
+
+    // Restrict y
+    requestedUpdate.y = Math.max(config.MIN_HEIGHT, requestedUpdate.y);
+    requestedUpdate.y = Math.min(config.MAX_HEIGHT, requestedUpdate.y);
+
+    hero.x = requestedUpdate.x;
+    hero.y = requestedUpdate.y;
+  }
 
   // Background image
   var bgReady = false;
