@@ -1,10 +1,8 @@
 const express = require('express');
 const app = express();
+const server = app.listen(process.env.PORT || 5000);
+const io = require('socket.io').listen(server);
 const bodyParser = require('body-parser');
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-
-app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
 
@@ -31,13 +29,17 @@ app.post('/event', jsonParser, function (request, response) {
 });
 
 app.listen(app.get('port'), function () {
-  console.log('Node app is running on port', app.get('port'));
+  console.log('Node app is running!');
 });
 
 io.on('connection', function (socket) {
   console.log('a user connected');
+
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
-});
 
+  socket.on('event', function (event) {
+    console.log('event');
+  });
+});
