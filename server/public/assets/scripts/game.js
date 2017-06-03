@@ -30,7 +30,7 @@ $(function () {
     return hero;
   }
   
-  heros = [createHero('carter'), createHero('test')];
+  heros = [];
 
   // Background image
   var bgReady = false;
@@ -156,21 +156,22 @@ $(function () {
   var socket = io();
   socket.on('event', function (event) {
     if (event && event.data && event.data.x) {
-
+      console.log(event);
+      console.log(heros);
       var currentHero;
 
       heros.forEach(function(hero) {
-        console.log('trying to find existing hero using', event.data.id);
-        if (hero.name === event.data.id) {
+        console.log('trying to find existing hero using', event.id);
+        if (hero.name === event.id) {
           console.log('found existing hero');
           currentHero = hero;
         } 
       });
 
       if (!currentHero) {
-        currentHero = createHero(event.data.id); 
+        currentHero = createHero(event.id); 
         heros.push(currentHero);
-        console.log('adding a new hero', event.data.id);
+        console.log('adding a new hero', event.id);
       }
 
       var newPosition = {x: currentHero.x, y: currentHero.y};
