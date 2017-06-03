@@ -34,7 +34,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('event', function (event) {
-    console.log('event');
+    console.log(event);
   });
 });
 
