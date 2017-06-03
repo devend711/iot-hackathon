@@ -129,4 +129,11 @@ $(function () {
   var then = Date.now();
   reset();
   main();
+
+  var socket = io();
+  socket.on('event', function (event) {
+    if (event && event.data && event.data.x) {
+      hero.x += hero.speed * event.data.x;
+    }
+  });
 });
