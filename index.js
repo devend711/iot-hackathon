@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const server = app.listen(process.env.PORT || 5000);
+const port = process.env.PORT || 5000;
+const server = app.listen(port);
 const io = require('socket.io').listen(server);
 const bodyParser = require('body-parser');
 
@@ -8,10 +9,6 @@ app.use(express.static(__dirname + '/public'));
 
 // create application/json parser
 const jsonParser = bodyParser.json();
-
-let gameState = {
-
-}
 
 // views is directory for all template files
 app.set('views', __dirname + '/views');
