@@ -176,30 +176,24 @@ $(function () {
   reset();
   main();
 
+  var getHeroById = function(id) {
+    if (heros[event.id]) return heros[event.id];
+    // Couldn't find an existing hero with this ID, create a new one
+    const newHero = createHero(event.id); 
+    heros[newHero.id] = newHero;
+    console.log('adding a new hero', newHero.id);
+    return newHero;
+  }
+
   var socket = io();
   socket.on('event', function (event) {
     if (event && event.data && event.data.x) {
       console.log(event);
-      var currentHero;
-
-      if (heros[event.id]) {
-        currentHero = heros[event.id];
-        console.log('found existing hero');
-      }
-
-      if (!currentHero) {
-        currentHero = createHero(event.id); 
-        heros[currentHero.id] = currentHero;
-        console.log('adding a new hero', event.id);
-      }
-
+      let currentHero = getHeroById(event.id);
       currentHero.temp = event.data.temp
-
-      var newPosition = {x: currentHero.x, y: currentHero.y};
-
+      let newPosition = {x: currentHero.x, y: currentHero.y};
       newPosition.x += currentHero.speed * event.data.x/100;
       newPosition.y += currentHero.speed * event.data.y/100;
-
       restrictMovement(currentHero, newPosition);
     }
   });
