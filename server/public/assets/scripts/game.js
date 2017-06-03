@@ -113,6 +113,7 @@ $(function () {
         && monster.y <= (hero.y + 32)
       ) {
         ++monstersCaught;
+        socket.broadcast.emit('game-update', {monstersCaught});
         reset();
       }
     });
@@ -217,5 +218,9 @@ $(function () {
 
   socket.on('hero-update', function (hero) {
     updateOwnHero(hero.id, hero);
+  });
+
+  socket.on('game-update', function (data) {
+    monstersCaught = data.monstersCaught || 0;
   });
 });
