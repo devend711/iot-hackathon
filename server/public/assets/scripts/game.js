@@ -118,16 +118,13 @@ $(function () {
     if (heroReady) {
       heros.forEach(function(hero) {
         ctx.drawImage(heroImage, hero.x, hero.y);
+        drawTempIndicator(hero);
       });
     }
 
     if (monsterReady) {
       ctx.drawImage(monsterImage, monster.x, monster.y);
     }
-
-    heros.forEach(function(hero) {
-      drawTempIndicator(hero);
-    });
 
     // Score
     ctx.fillStyle = "rgb(250, 250, 250)";
