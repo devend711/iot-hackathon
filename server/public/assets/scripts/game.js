@@ -31,11 +31,6 @@ $(function () {
   heros = {};
 
   var restrictMovement = function(hero, requestedUpdate) {
-    if (requestedUpdate.x < 30 || requestedUpdate.x > 450 || requestedUpdate.y < 30 || requestedUpdate.y > 414) {
-      console.log('no update: out of bounds');
-      return;
-    }
-
     // Restrict x
     requestedUpdate.x = Math.max(config.MIN_WIDTH, requestedUpdate.x);
     requestedUpdate.x = Math.min(config.MAX_WIDTH, requestedUpdate.x);
