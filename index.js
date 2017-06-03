@@ -10,9 +10,16 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.post('/', function(request, response) {
-  console.log('ping:', request);
-  response.status(200);
-  response.send('ping');
+  let body = response.on('data', function (chunk) {
+    body += chunk;
+  });
+
+  response.on('end', function () {
+    console.log(req.data);
+    console.log(body);
+    response.status(200);
+    response.send('ping');
+  });
 });
 
 app.listen(app.get('port'), function() {
