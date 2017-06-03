@@ -21,7 +21,7 @@ $(function () {
 
   var createHero = function(name) {
     var hero = {
-      temp: 0,
+      temperature: 50,
       speed: 256 // movement in pixels per second
     };
 
@@ -136,9 +136,11 @@ $(function () {
   };
 
   var drawTempIndicator = function (hero) {
+    if (!hero.temperature) return;
+    const scaledDiffFromRoomTemp = Math.abs(23 - hero.temperature) * 10 / 100 * 255;
     // Calcualte how red the player's temperature indicator should be
-    const fillColorPercentage = ((hero.temp-23)/100*255).toString(16).slice(0,2);
-    ctx.fillStyle='#${fillColorPercentage}FFFF';
+    const fillColorPercentageRValue = Math.min(scaledDiffFromRoomTemp, 255);
+    ctx.fillStyle = `rgb(${fillColorPercentageRValue}, 0, 0)`;
     ctx.globalAlpha = 0.2;
     ctx.fillRect(hero.x-10, hero.y-12.5, 50, 50);
     ctx.globalAlpha = 1.0;
@@ -188,6 +190,8 @@ $(function () {
         heros.push(currentHero);
         console.log('adding a new hero', event.data.id);
       }
+
+      currentHero.temperature = data.temperature;
 
       var newPosition = {x: currentHero.x, y: currentHero.y};
 
