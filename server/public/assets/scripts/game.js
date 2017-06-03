@@ -7,6 +7,7 @@ const config = {
 }
 
 $(function () {
+  var socket = io();
 
   // Create the canvas
   var canvas = document.getElementById("game-canvas");
@@ -196,8 +197,6 @@ $(function () {
     return newHero;
   }
 
-  var socket = io();
-
   var updateOwnHero = function (id, data) {
     if(!event || !event.data || !event.data.x) return;
     let currentHero = getHeroById(id);
@@ -218,6 +217,10 @@ $(function () {
 
   socket.on('hero-update', function (hero) {
     updateOwnHero(hero.id, hero);
+  });
+
+  socket.on('monster-update', function (monsterUpdate) {
+    monster = monsterUpdate;
   });
 
   socket.on('game-update', function (data) {
