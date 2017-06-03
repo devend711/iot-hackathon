@@ -174,7 +174,7 @@ $(function () {
       console.log(event);
       var currentHero;
 
-      for(let i=0; i++; i<heros.length) {
+      for(var i=0; i<heros.length; i++) {
         var hero = heros[i];
         console.log('trying to find existing hero using', event.data.id);
         if (hero.name === event.id) {
