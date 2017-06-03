@@ -183,7 +183,7 @@ $(function () {
       var currentHero;
 
       if (heros[event.id]) {
-        currentHero = hero[event.id];
+        currentHero = heros[event.id];
         console.log('found existing hero');
       }
 
