@@ -9,7 +9,7 @@ $(function () {
     hero.x = requestedUpdate.x;
     hero.y = requestedUpdate.y;
   }
-  
+
   // Create the canvas
   var canvas = document.createElement("canvas");
   var ctx = canvas.getContext("2d");
@@ -147,6 +147,7 @@ $(function () {
       var newPosition = {x: hero.x, y: hero.y};
 
       newPosition.x += hero.speed * event.data.x/100;
+      newPosition.y += hero.speed * event.data.y/100;
 
       restrictMovement(hero, newPosition);
     }
