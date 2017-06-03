@@ -1,10 +1,9 @@
 // https://github.com/lostdecade/simple_canvas_game
 
 const config = {
-  MIN_WIDTH: 30,
   MAX_WIDTH: 512,
-  MIN_HEIGHT: 30,
-  MAX_HEIGHT: 414
+  MAX_HEIGHT: 450,
+  HERO_SIZE: 30
 }
 
 $(function () {
@@ -32,12 +31,12 @@ $(function () {
 
   var restrictMovement = function(hero, requestedUpdate) {
     // Restrict x
-    requestedUpdate.x = Math.max(config.MIN_WIDTH, requestedUpdate.x);
-    requestedUpdate.x = Math.min(config.MAX_WIDTH, requestedUpdate.x);
+    requestedUpdate.x = Math.max(config.HERO_SIZE, requestedUpdate.x);
+    requestedUpdate.x = Math.min(config.MAX_WIDTH - config.HERO_SIZE, requestedUpdate.x);
 
     // Restrict y
-    requestedUpdate.y = Math.max(config.MIN_HEIGHT, requestedUpdate.y);
-    requestedUpdate.y = Math.min(config.MAX_HEIGHT, requestedUpdate.y);
+    requestedUpdate.y = Math.max(config.HERO_SIZE, requestedUpdate.y);
+    requestedUpdate.y = Math.min(config.MAX_HEIGHT - config.HERO_SIZE, requestedUpdate.y);
 
     hero.x = requestedUpdate.x;
     hero.y = requestedUpdate.y;
