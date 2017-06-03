@@ -1,0 +1,13 @@
+.navbar#main {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.navbar ul {
+	list-style-type: none;
+}
+
+.navbar a {
+	color: inherit;
+}

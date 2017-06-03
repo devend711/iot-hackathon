@@ -19,6 +19,10 @@ app.get('/', function (request, response) {
   response.render('pages/index');
 });
 
+app.get('/about', function (request, response) {
+  response.render('pages/about');
+});
+
 app.post('/event', jsonParser, function (request, response) {
   console.log(request.body);
   io.emit('event', request.body);
