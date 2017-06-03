@@ -145,16 +145,17 @@ $(function () {
 
   var drawTempIndicator = function (hero) {
     if (!hero.temp) return;
-    const diffFromRoomTemp = (23 - hero.temp);
+    const diffFromRoomTemp = (hero.temp - 23);
     const differenceScaled = diffFromRoomTemp * 10 / 100 * 255;
+
     // Calcualte how red the player's temperature indicator should be
-    const fillColorPercentageRValue = Math.min(differenceScaled, 255);
+    const fillColorPercentageRValue = Math.min(Math.abs(differenceScaled), 255);
     if (diffFromRoomTemp > 0) {
       // Make it red
       ctx.fillStyle = `rgb(${fillColorPercentageRValue}, 0, 0)`;
     } else {
       // Make it blue
-      ctx.fillStyle = `rgb(0, 0, ${fillColorPercentageRValue})`;
+      ctx.fillStyle = `rgb(0, 0, ${-fillColorPercentageRValue})`;
 
     }
     ctx.globalAlpha = 0.2;
