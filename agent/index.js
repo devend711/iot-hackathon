@@ -10,8 +10,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.post('/', function(request, response) {
-  console.log('ping:');
-  debugger
+  console.log('ping:', request.data);
   response.status(200);
   response.send('ping');
 });
