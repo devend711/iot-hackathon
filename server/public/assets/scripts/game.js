@@ -190,7 +190,7 @@ $(function () {
         console.log('adding a new hero', event.id);
       }
 
-      currentHero.temp = data.temp
+      currentHero.temp = event.data.temp
 
       var newPosition = {x: currentHero.x, y: currentHero.y};
 
