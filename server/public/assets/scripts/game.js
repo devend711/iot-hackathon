@@ -1,4 +1,15 @@
 $(function () {
+
+  var restrictMovement = function(hero, requestedUpdate) {
+    if (requestedUpdate.x < 30 || requestedUpdate.x > 450 || requestedUpdate.y < 30 || requestedUpdate.y > 414) {
+      console.log('no update: out of bounds');
+      return;
+    }
+
+    hero.x = requestedUpdate.x;
+    hero.y = requestedUpdate.y;
+  }
+  
   // Create the canvas
   var canvas = document.createElement("canvas");
   var ctx = canvas.getContext("2d");
@@ -133,7 +144,11 @@ $(function () {
   var socket = io();
   socket.on('event', function (event) {
     if (event && event.data && event.data.x) {
-      hero.x += hero.speed * event.data.x/100;
+      var newPosition = {x: hero.x, y: hero.y};
+
+      newPosition.x += hero.speed * event.data.x/100;
+
+      restrictMovement(hero, newPosition);
     }
   });
 });
