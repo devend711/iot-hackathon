@@ -1,12 +1,12 @@
-var express = require('express');  
-var app = express();  
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var port = process.env.PORT || 5000;
+
 const bodyParser = require('body-parser');
 
 app.use(express.static(__dirname + '/public'));
-app.set('port', (process.env.PORT || 5000));
-
 
 // create application/json parser
 const jsonParser = bodyParser.json();
@@ -26,10 +26,6 @@ app.post('/event', jsonParser, function (request, response) {
   response.send('ping');
 });
 
-app.listen(app.get('port'), function () {
-  console.log('Node app is running!');
-});
-
 io.on('connection', function (socket) {
   console.log('a user connected');
 
@@ -40,4 +36,9 @@ io.on('connection', function (socket) {
   socket.on('event', function (event) {
     console.log('event');
   });
+});
+
+
+http.listen(port, function(){
+  console.log('listening on *:' + port);
 });
