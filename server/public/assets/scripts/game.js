@@ -30,7 +30,7 @@ $(function () {
     return hero;
   }
   
-  heros = [];
+  heros = [createHero('hero')];
 
   // Background image
   var bgReady = false;
