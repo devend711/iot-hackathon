@@ -196,15 +196,26 @@ $(function () {
   }
 
   var socket = io();
+
+  var updateOwnHero = function (id, data) {
+    if(!event || !event.data || !event.data.x) return;
+    let currentHero = getHeroById(id);
+    currentHero.temp = data.temp
+    let newPosition = {x: currentHero.x, y: currentHero.y};
+    newPosition.x += currentHero.speed * data.x/100;
+    newPosition.y += currentHero.speed * data.y/100;
+    restrictMovement(currentHero, newPosition);
+  }
+
   socket.on('event', function (event) {
     if (event && event.data && event.data.x) {
-      console.log(event);
-      let currentHero = getHeroById(event.id);
-      currentHero.temp = event.data.temp
-      let newPosition = {x: currentHero.x, y: currentHero.y};
-      newPosition.x += currentHero.speed * event.data.x/100;
-      newPosition.y += currentHero.speed * event.data.y/100;
-      restrictMovement(currentHero, newPosition);
+      updateOwnHero(event.id, event.data)
+      // Update all other nodes about the endpoint
+      socket.broadcast.emit('hero-update', hero);
     }
+  });
+
+  socket.on('hero-update', function (hero) {
+    updateOwnHero(hero.id, hero);
   });
 });
