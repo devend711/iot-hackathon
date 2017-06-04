@@ -203,11 +203,8 @@ $(function () {
     if (!data || !data.x) return;
     let currentHero = getHeroById(id);
     console.log('found currentHero', currentHero);
-    // The movement should have been restricted by the socket which originally moved the hero
-    // so we should be able to just trust that the new positions are valid
-    currentHero.temp = data.temp
-    currentHero.x = data.x;
-    currentHero.y = data.y;
+    currentHero.temp = data.temp;
+    restrictMovement(currentHero, data);
   }
 
   socket.on('event', function (heroEvent) {
