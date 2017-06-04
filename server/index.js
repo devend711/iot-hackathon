@@ -40,6 +40,19 @@ io.on('connection', function (socket) {
   socket.on('event', function (event) {
     console.log(event);
   });
+
+  // Re-broadcastings
+  socket.on('hero-update', function (hero) {
+    socket.broadcast.emit('hero-update', hero);
+  });
+
+  socket.on('monster-update', function (monsterUpdate) {
+    socket.broadcast.emit('monster-update', monsterUpdate);
+  });
+
+  socket.on('game-update', function (data) {
+    socket.broadcast.emit('game-update', data);
+  });
 });
 
 http.listen(port, function(){
