@@ -211,7 +211,7 @@ $(function () {
     if (event && event.data && event.data.x) {
       updateOwnHero(event.id, event.data)
       // Update all other nodes about the endpoint
-      socket.emit('hero-update', hero);
+      socket.emit('hero-update', event.data);
     }
   });
 
