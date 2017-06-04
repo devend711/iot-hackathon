@@ -200,7 +200,7 @@ $(function () {
 
   var updateOwnHero = function (id, data) {
     console.log('called updateOwnHero', id, data);
-    if(!data || data.x) return;
+    if(!data || !data.x) return;
     let currentHero = getHeroById(id);
     console.log('found currentHero', currentHero);
     currentHero.temp = data.temp
