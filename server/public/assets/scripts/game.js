@@ -208,6 +208,7 @@ $(function () {
   }
 
   socket.on('event', function (heroEvent) {
+    console.log('client event:', heroEvent);
     if (heroEvent && heroEvent.data && heroEvent.data.x) {
       updateOwnHero(heroEvent.id, heroEvent.data)
       // Update all other nodes about the endpoint
@@ -216,7 +217,7 @@ $(function () {
   });
 
   socket.on('hero-update', function (hero) {
-    updateOwnHero(hero.id, hero);
+    updateOwnHero(hero.id, hero.data);
   });
 
   socket.on('monster-update', function (monsterUpdate) {
