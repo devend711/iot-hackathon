@@ -200,14 +200,14 @@ $(function () {
 
   var updateOwnHero = function (id, data) {
     console.log('called updateOwnHero', id, data);
-    if(!data || !data.x) return;
+    if (!data || !data.x) return;
     let currentHero = getHeroById(id);
     console.log('found currentHero', currentHero);
+    // The movement should have been restricted by the socket which originally moved the hero
+    // so we should be able to just trust that the new positions are valid
     currentHero.temp = data.temp
-    let newPosition = {x: currentHero.x, y: currentHero.y};
-    newPosition.x += currentHero.speed * data.x/100;
-    newPosition.y += currentHero.speed * data.y/100;
-    restrictMovement(currentHero, newPosition);
+    currentHero.x = data.x;
+    currentHero.y = data.y;
   }
 
   socket.on('event', function (heroEvent) {
@@ -225,10 +225,12 @@ $(function () {
   });
 
   socket.on('monster-update', function (monsterUpdate) {
+    console.log('got a monster update');
     monster = monsterUpdate;
   });
 
   socket.on('game-update', function (data) {
+    console.log('got a game update');
     monstersCaught = data.monstersCaught || 0;
   });
 });
