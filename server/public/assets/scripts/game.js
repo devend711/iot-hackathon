@@ -199,8 +199,10 @@ $(function () {
   }
 
   var updateOwnHero = function (id, data) {
+    console.log('called updateOwnHero');
     if(!data || data.x) return;
     let currentHero = getHeroById(id);
+    console.log('found currentHero', currentHero);
     currentHero.temp = data.temp
     let newPosition = {x: currentHero.x, y: currentHero.y};
     newPosition.x += currentHero.speed * data.x/100;
@@ -211,6 +213,7 @@ $(function () {
   socket.on('event', function (heroEvent) {
     console.log('client event:', heroEvent);
     if (heroEvent && heroEvent.data && heroEvent.data.x) {
+      console.log('going to updateOwnHero');
       updateOwnHero(heroEvent.id, heroEvent.data)
       // Update all other nodes about the endpoint
       socket.emit('hero-update', heroEvent);
