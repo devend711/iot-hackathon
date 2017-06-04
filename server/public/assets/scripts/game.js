@@ -114,7 +114,7 @@ $(function () {
         && monster.y <= (hero.y + 32)
       ) {
         ++monstersCaught;
-        socket.broadcast.emit('game-update', {monstersCaught});
+        socket.emit('game-update', {monstersCaught});
         reset();
       }
     });
@@ -211,7 +211,7 @@ $(function () {
     if (event && event.data && event.data.x) {
       updateOwnHero(event.id, event.data)
       // Update all other nodes about the endpoint
-      socket.broadcast.emit('hero-update', hero);
+      socket.emit('hero-update', hero);
     }
   });
 
