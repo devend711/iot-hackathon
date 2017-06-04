@@ -198,7 +198,7 @@ $(function () {
   }
 
   var updateOwnHero = function (id, data) {
-    if(!event || !event.data || !event.data.x) return;
+    if(!data || data.x) return;
     let currentHero = getHeroById(id);
     currentHero.temp = data.temp
     let newPosition = {x: currentHero.x, y: currentHero.y};
@@ -207,11 +207,11 @@ $(function () {
     restrictMovement(currentHero, newPosition);
   }
 
-  socket.on('event', function (event) {
-    if (event && event.data && event.data.x) {
-      updateOwnHero(event.id, event.data)
+  socket.on('event', function (heroEvent) {
+    if (heroEvent && heroEvent.data && heroEvent.data.x) {
+      updateOwnHero(heroEvent.id, heroEvent.data)
       // Update all other nodes about the endpoint
-      socket.emit('hero-update', event.data);
+      socket.emit('hero-update', heroEvent);
     }
   });
 
