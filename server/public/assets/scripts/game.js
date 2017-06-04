@@ -189,6 +189,7 @@ $(function () {
   main();
 
   var getHeroById = function(id) {
+    console.log('trying to find hero by id', id);
     if (heros[id]) return heros[id];
     // Couldn't find an existing hero with this ID, create a new one
     const newHero = createHero(id); 
